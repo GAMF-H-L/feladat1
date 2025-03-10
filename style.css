@@ -74,3 +74,15 @@ input, button {
     margin: 5px;
     padding: 5px;
 }
+
+#div1 {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+  }
+
+  #screenshot {
+    display: none;
+  }
+  

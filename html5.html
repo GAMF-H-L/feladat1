@@ -63,5 +63,63 @@
 	}
 	</script>
 
+	<h4>Drag and drop API</h4>
+
+	<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+	<br>
+	<img id="drag1" src="imgs/nje-logo.png" draggable="true" ondragstart="drag(event)" width="336" height="69">
+
+	<script>
+		function allowDrop(ev) {
+		  ev.preventDefault();
+		}
+		
+		function drag(ev) {
+		  ev.dataTransfer.setData("text", ev.target.id);
+		  
+		}
+		
+		function drop(ev) {
+		  ev.preventDefault();
+		  var data = ev.dataTransfer.getData("text");
+		  ev.target.appendChild(document.getElementById(data));
+		  alert("Sikerült a dobás, szép munka!");
+		}
+		</script>
+
+	<h4>Canvas</h4>
+	Játékok alapjára is remek szolgálatot tesz:<br>
+	<img src="imgs/doom.png" id="screenshot" />
+	<canvas id="canvas" width="640" height="400"></canvas>
+	
+	<script>
+		function restart() {
+		var d_canvas = document.getElementById('canvas');
+		var context = d_canvas.getContext('2d');
+		var screenshot = document.getElementById('screenshot');
+		context.drawImage(screenshot, 0, 0);
+		context.fillStyle = "#990000";
+
+		var rndval = 1;
+		var filler = function() {
+			for (var pixels = 0; pixels < 64; pixels++) {
+			var y = (rndval & 0x000FF) - 1;
+			var x = (rndval & 0x1FF00) >> 8;
+
+			rndval = (rndval * 22695477 + 1) % (1 << 17);
+
+			if (x < 320 && y < 200)
+				context.fillRect(x * 2, y * 2, 2, 2);
+			if (rndval == 1)
+				return setTimeout(restart, 500);
+			}
+			setTimeout(filler, 1);
+		};
+		filler();
+		}
+
+		$(document).ready(restart);
+</script>
+
 </body>
 </html>
