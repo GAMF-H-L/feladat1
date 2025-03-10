@@ -10,12 +10,16 @@
     <div id="output">Várakozás...</div>
 
     <script>
-        if (typeof(EventSource) !== "undefined") {
+        if (typeof(EventSource) !== "undefined") 
+        {
             let source = new EventSource("sse-inc.php");
-            source.onmessage = function(event) {
+            source.onmessage = function(event) 
+            {
                 document.getElementById("output").innerHTML = event.data;
             };
-        } else {
+        } 
+        else 
+        {
             document.getElementById("output").innerHTML = "A böngésző nem támogatja az SSE-t.";
         }
     </script>
