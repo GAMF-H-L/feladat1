@@ -26,16 +26,42 @@
 
 	<h4>Server-Sent Events</h4>
 	<p>Itt kerül bemutatásra a működése:</p>
-	<div id="result"></div>
+	<iframe style="border: 1px solid #000;" src="sse_output.html" width="400" height="100"></iframe>
+
 	<script>
 		if(typeof(EventSource) !== "undefined") {
 		  var source = new EventSource("sse-inc.php");
 		  source.onmessage = function(event) {
-			document.getElementById("result").innerHTML += event.data + "<br>";
+			document.getElementById("sseresult").innerHTML += event.data + "<br>";
 		  };
 		} else {
-		  document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+		  document.getElementById("sseresult").innerHTML = "Sorry, your browser does not support server-sent events...";
 		}
-		</script>
+	</script>
+
+	<h4>Geolocation API</h4>
+	<p>Itt kerül bemutatásra a működése,hogy a helyi koordináta lekérdezhető egy szélességi és egy hosszúsági számot kapunk:</p>
+
+	<button onclick="getLocation()">Lekérdezés</button>
+
+	<p id="demo"></p>
+
+	<script>
+	const x = document.getElementById("demo");
+
+	function getLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+	} else { 
+		x.innerHTML = "Geolocation is not supported by this browser.";
+	}
+	}
+
+	function showPosition(position) {
+	x.innerHTML = "Latitude (szélesség): " + position.coords.latitude + 
+	"<br>Longitude (hosszúság): " + position.coords.longitude;
+	}
+	</script>
+
 </body>
 </html>

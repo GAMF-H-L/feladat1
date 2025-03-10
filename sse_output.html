@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE Output</title>
+</head>
+<body>
+    <h2>SSE adatok</h2>
+    <div id="output">Várakozás...</div>
+
+    <script>
+        if (typeof(EventSource) !== "undefined") {
+            let source = new EventSource("sse-inc.php");
+            source.onmessage = function(event) {
+                document.getElementById("output").innerHTML = event.data;
+            };
+        } else {
+            document.getElementById("output").innerHTML = "A böngésző nem támogatja az SSE-t.";
+        }
+    </script>
+</body>
+</html>
