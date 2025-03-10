@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Beadandó</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Menüpontok kezelése
+            $('nav a').on('click', function (e) {
+                e.preventDefault(); // Ne lépjen új oldalra
+                var page = $(this).attr('href'); // Az oldal elérési útja
+
+                // Az aktív menüpont beállítása
+                $('nav a').removeClass('active'); // Eltávolítjuk az összes aktív osztályt
+                $(this).addClass('active'); // Kiemeljük az aktuális menüpontot
+
+                // Ellenőrizzük, hogy az adott link nem "#" (üres link)
+                if (page !== "#") {
+                    $('#content').hide().load(page, function () {
+                        if (page == 'crud.html') {
+                            renderTable();
+                        }
+                        $(this).fadeIn(300); // Animáció a betöltés után
+                    });
+                }
+            });
+
+            // Alapértelmezett oldal betöltése: menü 1 (main.html)
+            $('#content').load('main.html', function () {
+                $('nav a[href="main.html"]').addClass('active');
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="main.html" class="active">Főoldal</a></li>
+            <li><a href="crud.html">CRUD tábla</a></li>
+            <li><a href="html5.html">HTML5</a></li>
+			<li><a href="chartjs.html">ChartJS</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <aside>
+            <p>Kattintások száma:</p> <output id="result">0</output>
+            
+            <script>
+                var w;
+
+                if (typeof Worker !== "undefined") {
+                    w = new Worker("worker.js");
+                    w.onmessage = function (event) {
+                        document.getElementById("result").innerHTML = event.data;
+                    };
+
+                    document.addEventListener("click", function () {
+                        w.postMessage("increment");
+                    });
+                } else {
+                    document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
+                }
+            </script>
+        </aside>
+        <div class="content" id="content">
+
+        </div>
+    </div>
+    <footer>
+        <p>Lábléc</p>
+    </footer>
+</body>
+</html>
