@@ -3,13 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajax</title>
+    <title>AJAX alkalmazás</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .form-container { margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .error { color: red; }
+        .success { color: green; }
 
+
+    </style>
 </head>
 <body>
-    <h2>Ajax</h2>
-	<p>Az alábbi listában néhány példa kerül bemutatásra!</p>
 
-	
+<h1>AJAX Alkalmazás</h1>
+<button id="fetchDataBtn">Adatok betöltése</button>
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Név</th>
+            <th>Magasság</th>
+            <th>Súly</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Az adatok ide kerülnek -->
+    </tbody>
+</table>
+<br><br>
+<h2>Új adat hozzáadása</h2>
+<form id="addDataForm">
+    <label for="name">Név:</label>
+    <input type="text" id="name" required><br>
+    <label for="height">Magasság:</label>
+    <input type="number" id="height" required><br>
+    <label for="weight">Súly:</label>
+    <input type="number" id="weight" required><br>
+    <button type="submit">Hozzáadás</button>
+</form>
+
+<h2>Adat módosítása</h2>
+<!-- Update Form -->
+<form id="updateDataForm">
+    <label for="updateId">ID:</label>
+    <input type="text" id="updateId" required>
+    <button type="button" id="getDataForIdBtn">Adatok betöltése</button>
+
+    <label for="updateName">Új név:</label>
+    <input type="text" id="updateName" maxlength="30">
+    <label for="updateHeight">Új magasság:</label>
+    <input type="text" id="updateHeight" maxlength="30">
+    <label for="updateWeight">Új súly:</label>
+    <input type="text" id="updateWeight" maxlength="30">
+    <button type="submit">Módosítás</button>
+</form>
+
+<form id="deleteDataForm">
+    <label for="deleteId">ID:</label>
+    <input type="text" id="deleteId" required>
+    <button type="submit">Törlés</button>
+</form>
+
+<script src="ajax.js"></script>
 </body>
 </html>

@@ -54,8 +54,9 @@
         </tbody>
     </table>
     
-    <canvas id="lineChart" width="400" height="200"></canvas>
-    
+    <div style="width: 750px;">
+        <canvas id="lineChart" width="400" height="200"></canvas>
+    </div>
     <script>
         const ctx = document.getElementById('lineChart').getContext('2d');
         let chart = new Chart(ctx, {
@@ -66,7 +67,7 @@
 
         document.querySelectorAll("#dataTable tbody tr").forEach((row, index) => {
             row.addEventListener("click", () => {
-                const values = data[index].slice(1);
+                const values = data[index].slice(0);
                 chart.data.datasets = [{ label: `Sor ${index + 1}`, data: values, borderColor: 'blue', fill: false }];
                 chart.update();
             });
