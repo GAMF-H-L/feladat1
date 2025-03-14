@@ -25,9 +25,15 @@ document.getElementById('fetchDataBtn').addEventListener('click', function() {
                 const avg = sum / heightData.length;
                 const max = Math.max(...heightData);
 
-                console.log('Összeg:', sum);
-                console.log('Átlag:', avg);
-                console.log('Legnagyobb:', max);
+
+                // Kiírás a táblázatba
+                document.getElementById('sumValue').textContent = sum;
+                document.getElementById('avgValue').textContent = avg.toFixed(2);
+                document.getElementById('maxValue').textContent = max;
+
+                //console.log('Összeg:', sum);
+                //console.log('Átlag:', avg);
+                //console.log('Legnagyobb:', max);
             } else {
                 console.error('Nem érkeztek adatok!');
             }
@@ -91,7 +97,7 @@ function addData(data) {
     fetchData(op, data)
         .then(response => {
             // Ellenőrizzük a backend válaszát
-            if (response && response.success === true) {
+            if (response && response.success === true || response == 1) {
                 alert('Új adat hozzáadva!');
                 fetchData('read') // Frissítjük az adatokat
                     .then(updatedData => {
@@ -111,7 +117,7 @@ function addData(data) {
                     });
             } else {
                 // Ha nem sikerült, vagy nincs valid válasz, hibát jelenítünk meg
-                console.error('Hiba történt az adat hozzáadása során:', response ? response.message : 'Ismeretlen válasz');
+                console.error('Hiba történt az adat hozzáadása során:');
                 alert('Hiba történt az adat hozzáadása során! ' + (response ? response.message : 'Ismeretlen hiba'));
             }
         })
@@ -176,3 +182,49 @@ document.getElementById('updateDataForm').addEventListener('submit', function(ev
         alert('Minden mezőt ki kell tölteni!');
     }
 });
+
+//törlés
+document.getElementById('deleteDataForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Megakadályozza a form alapértelmezett elküldését
+
+    const id = document.getElementById('deleteId').value.trim();
+    const code = 'F7OTB7hal024'; // Itt add meg a kódodat
+
+    if (id) {
+        // API kérés paraméterek
+        const op = 'delete';
+
+        // Lekérdezés az API-ra
+        fetch('http://gamf.nhely.hu/ajax2/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                op: op,
+                id: id,
+                code: code
+            })
+        })
+        .then(response => response.json()) // A válasz JSON-ba konvertálása
+        .then(data => {
+            // Naplózzuk a választ, hogy lássuk, mi történik
+            console.log('Válasz:', data);
+            
+            if (data && data.rowCount > 0 || data == 1) {
+                alert('Adat sikeresen törölve!');
+                // Ha sikerült, ürítjük a mezőt
+                document.getElementById('deleteId').value = '';
+            } else {
+                alert('Nem történt változtatás. Lehet, hogy nem létezik ilyen ID vagy nincs hozzáférés.');
+            }
+        })
+        .catch(error => {
+            console.error('Hiba történt a törlés során:', error);
+            alert('Hiba történt a törlés során!');
+        });
+    } else {
+        alert('Kérjük, adja meg az ID-t!');
+    }
+});
+

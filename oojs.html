@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matematikai alkalmazás</title>
+  <style>
+    #SumResult {
+      font-weight: bold;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 300px;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .input-group label {
+      margin-right: 10px;
+    }
+
+    .input-group input, .input-group select {
+      margin-right: 20px;
+    }
+
+    /* Eredmény megjelenítése */
+
+  </style>
+</head>
+<body>
+  <h1>Matematikai műveletek</h1>
+
+  <div class="input-group">
+    <label for="num1">Első szám: </label>
+    <input type="number" id="num1" placeholder="Adja meg az első számot">
+  </div>
+
+  <div class="input-group">
+    <label for="operation">Művelet: </label>
+    <select id="operation">
+      <option value="add">Összeadás</option>
+      <option value="subtract">Kivonás</option>
+      <option value="multiply">Szorzás</option>
+      <option value="divide">Osztás</option>
+    </select>
+  </div>
+
+  <div class="input-group">
+    <label for="num2">Második szám: </label>
+    <input type="number" id="num2" placeholder="Adja meg a második számot">
+  </div>
+
+  <button id="calculateBtn">Számolás</button>
+  <br><br>
+
+  <div id="SumResult">Eredmény: </div>
+
+  <script>
+    class Calculator {
+      constructor() {
+        this.result = 0;
+      }
+
+      add(a, b) {
+        this.result = a + b;
+        this.displayResult();
+      }
+
+      subtract(a, b) {
+        this.result = a - b;
+        this.displayResult();
+      }
+
+      multiply(a, b) {
+        this.result = a * b;
+        this.displayResult();
+      }
+
+      divide(a, b) {
+        if (b === 0) {
+          this.result = 'Hiba: Osztás nullával!';
+        } else {
+          this.result = a / b;
+        }
+        this.displayResult();
+      }
+
+      displayResult() {
+        const resultDiv = document.getElementById('SumResult');
+        resultDiv.textContent = 'Eredmény: ' + this.result;
+        console.log(this.result);
+      }
+    }
+
+    class AdvancedCalculator extends Calculator {
+      constructor() {
+        super();
+      }
+
+      getOperands() {
+        const num1 = parseFloat(document.getElementById('num1').value);
+        const num2 = parseFloat(document.getElementById('num2').value);
+        return [num1, num2];
+      }
+
+      getOperation() {
+        return document.getElementById('operation').value;
+      }
+
+      init() {
+        document.getElementById('calculateBtn').addEventListener('click', () => {
+          const [num1, num2] = this.getOperands();
+          const operation = this.getOperation();
+
+          // Ellenőrizzük, hogy a számok érvényesek-e
+          if (isNaN(num1) || isNaN(num2)) {
+            alert('Kérjük, adjon meg érvényes számokat!');
+            return;
+          }
+
+          switch (operation) {
+            case 'add':
+              this.add(num1, num2);
+              break;
+            case 'subtract':
+              this.subtract(num1, num2);
+              break;
+            case 'multiply':
+              this.multiply(num1, num2);
+              break;
+            case 'divide':
+              this.divide(num1, num2);
+              break;
+            default:
+              alert('Ismeretlen művelet');
+          }
+        });
+      }
+    }
+
+    const calc = new AdvancedCalculator();
+    calc.init();
+  </script>
+</body>
+</html>

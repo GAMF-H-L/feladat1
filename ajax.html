@@ -33,6 +33,31 @@
         <!-- Az adatok ide kerülnek -->
     </tbody>
 </table>
+<br>
+<h2>Statisztikai adatok</h2>
+<table id="statisticsTable" border="1">
+    <thead>
+        <tr>
+            <th>Statisztika</th>
+            <th>Érték</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Összeg</td>
+            <td id="sumValue">-</td>
+        </tr>
+        <tr>
+            <td>Átlag</td>
+            <td id="avgValue">-</td>
+        </tr>
+        <tr>
+            <td>Legnagyobb</td>
+            <td id="maxValue">-</td>
+        </tr>
+    </tbody>
+</table>
+
 <br><br>
 <h2>Új adat hozzáadása</h2>
 <form id="addDataForm">
@@ -61,6 +86,7 @@
     <button type="submit">Módosítás</button>
 </form>
 
+<h2>Adat törlése</h2>
 <form id="deleteDataForm">
     <label for="deleteId">ID:</label>
     <input type="text" id="deleteId" required>
