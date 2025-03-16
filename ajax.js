@@ -25,7 +25,6 @@ document.getElementById('fetchDataBtn').addEventListener('click', function() {
                 const avg = sum / heightData.length;
                 const max = Math.max(...heightData);
 
-
                 // Kiírás a táblázatba
                 document.getElementById('sumValue').textContent = sum;
                 document.getElementById('avgValue').textContent = avg.toFixed(2);
