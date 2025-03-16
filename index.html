@@ -47,24 +47,24 @@
     <header>
         <h1>Web-programozás-1 Előadás Házi feladat</h1>
     </header>
-    <nav>
-        <ul>
-            <li><a href="main.html" class="active">Főoldal</a></li>
-            <li><a href="crud.html">CRUD tábla</a></li>
-            <li><a href="html5.html">HTML5</a></li>
-			<li><a href="chartjs.html">ChartJS</a></li>
-            <li><a href="ajax.html">AJAX</a></li>
-            <li><a href="oojs.html">OOJS</a></li>
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="main.html" class="active">Főoldal</a></li>
+        <li><a href="crud.html">CRUD tábla</a></li>
+        <li><a href="html5.html">HTML5</a></li>
+        <li><a href="chartjs.html">ChartJS</a></li>
+        <li><a href="ajax.html">AJAX</a></li>
+        <li><a href="oojs.html">OOJS</a></li>
+    </ul>
+</nav>
     <div class="container">
         <aside>
             <p>Kattintások száma:</p> <output id="result">0</output>
             
             <script>
                 var w;
-
-                if (typeof Worker !== "undefined") {
+                if (typeof Worker !== "undefined") 
+                {
                     w = new Worker("worker.js");
                     w.onmessage = function (event) {
                         document.getElementById("result").innerHTML = event.data;
@@ -73,9 +73,13 @@
                     document.addEventListener("click", function () {
                         w.postMessage("increment");
                     });
-                } else {
+                } 
+                else 
+                {
                     document.getElementById("result").innerHTML = "A böngésző nem támogatja a Web Workers-t";
                 }
+
+                delete table;
             </script>
         </aside>
         <div class="content" id="content">

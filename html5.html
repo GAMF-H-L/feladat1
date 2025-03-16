@@ -29,14 +29,14 @@
 	<iframe style="border: 1px solid #000;" src="sse_output.html" width="400" height="100"></iframe>
 
 	<script>
-		if(typeof(EventSource) !== "undefined") {
+		/*if(typeof(EventSource) !== "undefined") {
 		  var source = new EventSource("sse-inc.php");
 		  source.onmessage = function(event) {
 			document.getElementById("sseresult").innerHTML += event.data + "<br>";
 		  };
 		} else {
-		  document.getElementById("sseresult").innerHTML = "Sorry, your browser does not support server-sent events...";
-		}
+		  document.getElementById("sseresult").innerHTML = "A böngésző nem támogatja az SSE-t.";
+		}*/
 	</script>
 
 	<h4>Geolocation API</h4>
@@ -49,17 +49,22 @@
 	<script>
 	const x = document.getElementById("demo");
 
-	function getLocation() {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(showPosition);
-	} else { 
-		x.innerHTML = "Geolocation is not supported by this browser.";
-	}
+	function getLocation() 
+	{
+		if (navigator.geolocation) 
+		{
+			navigator.geolocation.getCurrentPosition(showPosition);
+		} 
+		else 
+		{ 
+			x.innerHTML = "Geolokációt nem támogatja a böngésző.";
+		}
 	}
 
-	function showPosition(position) {
-	x.innerHTML = "Latitude (szélesség): " + position.coords.latitude + 
-	"<br>Longitude (hosszúság): " + position.coords.longitude;
+	function showPosition(position) 
+	{
+		x.innerHTML = 	"Latitude (szélesség): " + position.coords.latitude + 
+						"<br>Longitude (hosszúság): " + position.coords.longitude;
 	}
 	</script>
 
@@ -67,7 +72,7 @@
 
 	<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 	<br>
-	<img id="drag1" src="imgs/nje-logo.png" draggable="true" ondragstart="drag(event)" width="336" height="69">
+	<img id="drag1" src="imgs/nje-logo.png" draggable="true" ondragstart="drag(event)" width="200">
 
 	<script>
 		function allowDrop(ev) {

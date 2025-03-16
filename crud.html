@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD Táblázat</title>
     <style>
-       
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid black; padding: 8px; text-align: left; }
         th { cursor: pointer; background-color: #f2f2f2; }
@@ -13,11 +12,8 @@
     </style>
 </head>
 <body>
-
     <h2>CRUD Táblázat</h2>
-
     <input type="text" id="search" placeholder="Keresés..." onkeyup="searchTable()">
-
     <table>
         <thead>
             <tr>
@@ -29,7 +25,6 @@
         </thead>
         <tbody id="table-body"></tbody>
     </table>
-
     <h3>Új bejegyzés</h3>
     <input type="text" id="name" placeholder="Név" required minlength="2" maxlength="30">
     <input type="number" id="age" placeholder="Kor" required min="1" max="120">
@@ -38,32 +33,44 @@
     <button onclick="saveEdit()" id="saveBtn" style="display:none;">Mentés</button>
 
     <script>
+        let tableData = [];
+        let editingId = null;
+        let sortDirection = {}; 
 
-     let tableData = [
-    { id: 1, name: "Ödön", age: 25, city: "Kecskemét" },
-    { id: 2, name: "Bella", age: 30, city: "Budapest" },
-    { id: 3, name: "Henrik", age: 22, city: "Pápa" },
-    { id: 4, name: "Otmár", age: 28, city: "Balatonlelle" }
-];
-let editingId = null;
+        function saveToLocalStorage() {
+            localStorage.setItem("tableData", JSON.stringify(tableData));
+        }
 
-function renderTable() {
-    const tbody = document.getElementById("table-body");
-    tbody.innerHTML = "";
-    tableData.forEach((item, index) => {
-        const row = `<tr>
-            <td>${item.name}</td>
-            <td>${item.age}</td>
-            <td>${item.city}</td>
-            <td>
-                <button onclick="editEntry(${index})">Szerkesztés</button>
-                <button onclick="deleteEntry(${index})">Törlés</button>
-            </td>
-        </tr>`;
-        tbody.innerHTML += row;
-    });
-}
+        function loadFromLocalStorage() {
+            const data = localStorage.getItem("tableData");
+            if (data) {
+                tableData = JSON.parse(data);
+            }
+            localStorage.setItem("tableData", JSON.stringify([
+                { id: 1, name: "Ödön", age: 25, city: "Kecskemét" },
+                { id: 2, name: "Bella", age: 30, city: "Budapest" },
+                { id: 3, name: "Henrik", age: 22, city: "Pápa" },
+                { id: 4, name: "Otmár", age: 28, city: "Balatonlelle" }
+            ]));
+            renderTable();
+        }
 
+        function renderTable() {
+            const tbody = document.getElementById("table-body");
+            tbody.innerHTML = "";
+            tableData.forEach((item, index) => {
+                const row = `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.age}</td>
+                    <td>${item.city}</td>
+                    <td>
+                        <button onclick="editEntry(${index})">Szerkesztés</button>
+                        <button onclick="deleteEntry(${index})">Törlés</button>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
 
         function addEntry() {
             const name = document.getElementById("name").value.trim();
@@ -74,31 +81,23 @@ function renderTable() {
                 alert("Minden mező kitöltése kötelező!");
                 return;
             }
-
-            if (name.length < 2 || name.length > 30) {
-                alert("A név hossza 2 és 30 karakter között kell legyen!");
+            if (name.length < 2 || name.length > 30 || city.length < 2 || city.length > 30) {
+                alert("A név és a város hossza 2 és 30 karakter között kell legyen!");
                 return;
             }
-
-            if (city.length < 2 || city.length > 30) {
-                alert("A város neve 2 és 30 karakter között kell legyen!");
-                return;
-            }
-
             if (age < 1 || age > 120) {
                 alert("A kor értéke 1 és 120 között lehet!");
                 return;
             }
 
             tableData.push({ id: Date.now(), name, age: Number(age), city });
+            saveToLocalStorage();
             renderTable();
-            document.getElementById("name").value = "";
-            document.getElementById("age").value = "";
-            document.getElementById("city").value = "";
         }
 
         function deleteEntry(index) {
             tableData.splice(index, 1);
+            saveToLocalStorage();
             renderTable();
         }
 
@@ -118,6 +117,7 @@ function renderTable() {
             tableData[editingId].city = document.getElementById("city").value;
             editingId = null;
             document.getElementById("saveBtn").style.display = "none";
+            saveToLocalStorage();
             renderTable();
         }
 
@@ -146,43 +146,16 @@ function renderTable() {
         function sortTable(columnIndex) {
             const keys = ["name", "age", "city"];
             const key = keys[columnIndex];
-
+            sortDirection[key] = sortDirection[key] ? sortDirection[key] * -1 : 1;
             tableData.sort((a, b) => {
-                if (typeof a[key] === "number") {
-                    return a[key] - b[key];
-                }
-                return a[key].localeCompare(b[key]);
+                return typeof a[key] === "number" 
+                    ? (a[key] - b[key]) * sortDirection[key] 
+                    : a[key].localeCompare(b[key]) * sortDirection[key];
             });
-
             renderTable();
         }
 
-        renderTable();
-		
-		let sortDirection = {}; // Tárolja az oszlopok rendezési irányát
-
-		function sortTable(columnIndex) {
-			const keys = ["name", "age", "city"];
-			const key = keys[columnIndex];
-
-			// Alapértelmezett növekvő rendezés
-			if (!sortDirection[key]) {
-				sortDirection[key] = 1; // 1 = növekvő, -1 = csökkenő
-			} else {
-				sortDirection[key] *= -1; // Váltás az ellentétes irányba
-			}
-
-			tableData.sort((a, b) => {
-				if (typeof a[key] === "number") {
-					return (a[key] - b[key]) * sortDirection[key];
-				}
-				return a[key].localeCompare(b[key]) * sortDirection[key];
-			});
-
-			renderTable();
-		}
-	
+        loadFromLocalStorage();
     </script>
-
 </body>
 </html>

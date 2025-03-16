@@ -29,17 +29,24 @@
         </thead>
         <tbody>
             <script>
+           // Ellenőrizzük, hogy létezik-e már a data változó, ha nem, akkor definiáljuk
+            if (typeof data === "undefined") {
+                var data = JSON.parse(localStorage.getItem("tableData")) || [];
+            }
+
+            function createTable() {
                 const table = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
-                let data = [];
+                table.innerHTML = ""; // Táblázat ürítése az új adatok előtt
+                data = []; // Adatokat újratöltjük
 
                 for (let i = 1; i <= 5; i++) {
                     let row = document.createElement("tr");
                     let indexCell = document.createElement("td");
-                    indexCell.innerText = i; // Első oszlop sorszám
+                    indexCell.innerText = i;
                     row.appendChild(indexCell);
 
                     let rowData = [];
-                    for (let j = 1; j <= 5; j++) { // 5 adat generálása minden sorban
+                    for (let j = 1; j <= 5; j++) {
                         let cell = document.createElement("td");
                         let value = Math.floor(Math.random() * 100) + 1;
                         cell.innerText = value;
@@ -50,6 +57,39 @@
                     data.push(rowData);
                     table.appendChild(row);
                 }
+
+                // Adatok mentése a LocalStorage-be
+                localStorage.setItem("tableData", JSON.stringify(data));
+
+                createChart();
+            }
+
+            function createChart() {
+                const ctx = document.getElementById('lineChart').getContext('2d');
+                let chart = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: ['1', '2', '3', '4', '5'], datasets: [] },
+                    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                });
+
+                document.querySelectorAll("#dataTable tbody tr").forEach((row, index) => {
+                    row.addEventListener("click", () => {
+                        if (data[index]) {
+                            const values = data[index].slice();
+                            chart.data.datasets = [{ label: `Sor ${index + 1}`, data: values, borderColor: 'blue', fill: false }];
+                            chart.update();
+                        }
+                    });
+                });
+            }
+
+            // Ha van mentett adat, töltsük be
+            if (data.length > 0) {
+                createTable();
+            } else {
+                createTable(); // Első betöltésnél generálunk új adatokat
+            }
+
             </script>
         </tbody>
     </table>
@@ -58,22 +98,15 @@
         <canvas id="lineChart" width="400" height="200"></canvas>
     </div>
     <script>
-        const ctx = document.getElementById('lineChart').getContext('2d');
-        let chart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: ['1', '2', '3', '4', '5'], datasets: [] },
-            options: { responsive: true, scales: { y: { beginAtZero: true } } }
-        });
-
-        document.querySelectorAll("#dataTable tbody tr").forEach((row, index) => {
-            row.addEventListener("click", () => {
-                const values = data[index].slice(0);
-                chart.data.datasets = [{ label: `Sor ${index + 1}`, data: values, borderColor: 'blue', fill: false }];
-                chart.update();
-            });
-        });
+     
     </script>
 	
 	
 </body>
 </html>
+
+
+<!--
+
+
+-->
