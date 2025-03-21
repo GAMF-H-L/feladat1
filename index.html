@@ -59,8 +59,45 @@
 </nav>
     <div class="container">
         <aside>
-            <p>Kattintások száma:</p> <output id="result">0</output>
-            
+            <p style="float: left;">Kattintások száma:</p> <output id="result">0</output>
+            <div style="margin-top: 16px;">
+                <span>Tartalmi összefoglaló:</span>
+            </div>
+            <div class="menuitem">
+                <div class="asidetitle">CRUD menü</div>
+                - CRUD funkcionalitás (Create, Read, Update, Delete) megvalósítása táblázattal <br>
+                - legalább 4x4-es táblázat<br>
+                - legyen validáció minden mezőre pl. kötelező, min, max hossz<br>
+                - A táblázatot lehessen rendezni bármelyik oszlop alapján<br>
+                - A táblázatban lehessen szűrni/keresni bármelyik oszlop alapján<br>
+            </div>
+            <div class="menuitem">
+                <div class="asidetitle">HTML5 menü</div>
+                Készítsen a következő témákhoz 1-1 kis példát:<br>
+                Web Storage, Web Workers, Server-Sent Events, Geolocation API, Drag and drop API, Canvas, SVG
+            </div>
+            <div class="menuitem">
+                <div class="asidetitle">ChartJS menü</div>
+                Tegyen az oldalra legalább 5x5-ös számokat tartalmazó táblázatot. A táblázat bármelyik sorát kiválasztva ábrázolja az adatokat vonaldiagramon a táblázat alatt. <br>
+                Javasolt diagram: <a href="https://www.chartjs.org/" target="_blank">https://www.chartjs.org/</a>
+            </div>
+            <div class="menuitem">
+                <div class="asidetitle">AJAX menü</div>
+                A dokumentum végénél az API specifikációnál talál leírást az API-ról, amit fel kell használni a feladathoz.<br>
+                Ellenőrizze cURL-el és Postman-al, hogy jól működnek-e a CRUD funkciók.<br>
+                Az ellenőrzés lépéseit mutassa be a dokumentációban is.<br>
+                Készítsen AJAX alkalmazást az API-t felhasználva és jelenítse meg az adatokat weboldalon.<br>
+                A következő fájlokat kell elkészíteni: ajax.html, ajax.js<br>
+                A Read funkciónál írassa ki az adott kódhoz tartozó adatokat egymás alá. Majd utána írassa ki a height értékekről: összeg, átlag, legnagyobb.<br>
+                A Create és Update funkcióknál a beviteli mező nem lehetnek üresek és max 30 karakter értéket tartalmazhatnak. 	Ezeket ellenőrizze a JS fájlban (validation).<br>
+                Az Update résznél legyen egy beviteli mező, amibe beírjuk az ID-t, és egy getDataForId gomb, amivel először kiolvastatjuk az adatokat beviteli mezőkbe, ahol módosíthatjuk azokat.
+                A Create, Update, Delete műveletek sikerességéről adjunk visszajelzést a weboldalon.
+            </div>
+            <div class="menuitem">
+                <div class="asidetitle">OOJS menü</div>
+                Készítsen egy szabadon választott Objektumorientált JavaScript alkalmazást. Alkalmazza a következőket: class, constructor, metódusok, document.body.appendChild, extends, super
+            </div>
+
             <script>
                 var w;
                 if (typeof Worker !== "undefined") 

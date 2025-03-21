@@ -53,6 +53,14 @@ header, footer {
             padding: 15px;
         }
 
+p {
+    margin: 10px;
+}
+
+ul {
+    margin: 0 0 0 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -114,4 +122,25 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.title {
+    text-align: center;
+}
+
+#result {
+    line-height: 2.5;
+}
+
+.asidetitle {
+    font-size: 14px;
+   clear: both;
+   display: block;
+   font-weight: bold; 
+   margin-top: 10px;
+}
+
+.menuitem
+{
+    font-size: 12px;
 }
