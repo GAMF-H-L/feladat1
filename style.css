@@ -144,3 +144,12 @@ button:hover {
 {
     font-size: 12px;
 }
+
+.ftitle {
+    margin-top: 15px;
+    text-decoration: underline;
+}
+
+.maintitle {
+
+}
